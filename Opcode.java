@@ -5,22 +5,56 @@
 public enum Opcode {
     /** lista delle operazioni */
 
-    ADD(1,3),
-        /*
-        @Override
-        Instruction toInstruction(Memory.Location[] parameters,Registers registers){
+    ADD(1,3) {
+        Instruction toInstruction(Memory.Location[] parameters, Registers registers) {
             return new Add(parameters);
         }
-        */
-    MULTIPLY(2,3),
-    READ(3,1),
-    WRITE(4,1),
-    JUMP_NOT_ZERO(5,2),
-    JUMP_ZERO(6,2),
-    LESS_THAN(7,3),
-    EQUALS(8,3),
-    ADJ_RBP(9,1),
-    HALT(99,0);
+    },
+    MULTIPLY(2,3){
+        Instruction  toInstruction(Memory.Location[] parameters,Registers registers){
+            return new Multiply(parameters, registers);
+        }
+    },
+    READ(3,1){
+        Instruction  toInstruction(Memory.Location[] parameters,Registers registers){
+            return new Read(parameters, registers);
+        }
+    },
+    WRITE(4,1){
+        Instruction  toInstruction(Memory.Location[] parameters,Registers registers){
+            return new Write(parameters, registers);
+        }
+    },
+    JUMP_NOT_ZERO(5,2){
+        Instruction  toInstruction(Memory.Location[] parameters,Registers registers){
+            return new JumpIfNotZero(parameters, registers);
+        }
+    },
+    JUMP_ZERO(6,2){
+        Instruction  toInstruction(Memory.Location[] parameters,Registers registers){
+            return new JumpIfZero(parameters, registers);
+        }
+    },
+    LESS_THAN(7,3){
+        Instruction  toInstruction(Memory.Location[] parameters,Registers registers){
+            return new LessThan(parameters, registers);
+        }
+    },
+    EQUALS(8,3){
+        Instruction  toInstruction(Memory.Location[] parameters,Registers registers){
+            return new Equals(parameters, registers);
+        }
+    },
+    ADJ_RBP(9,1){
+        Instruction  toInstruction(Memory.Location[] parameters,Registers registers){
+            return new AdjRbp(parameters, registers);
+        }
+    },
+    HALT(99,0){
+        Instruction  toInstruction(Memory.Location[] parameters,Registers registers){
+            return new Halt();
+        }
+    };
 
     /** operation code */
     public final int op;
@@ -46,5 +80,5 @@ public enum Opcode {
         for(Opcode o: values()) if (o.op == code) return o;
         throw new IllegalArgumentException(("Invalid Mode: " + code));
     }
-    //abstract Instruction toInstruction(Memory.Location[] parameters,Registers registers);
+    abstract Instruction toInstruction(Memory.Location[] parameters,Registers registers);
 }
