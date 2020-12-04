@@ -13,14 +13,18 @@ public class Run {
         Memory.Location[] params = new Memory.Location[]{};
         Registers registers = new Registers();
         List<Integer> fullcode = new ArrayList<Integer>();
+        //insieme delle operazioni
         fullcode = stringToIntArrayList(args[0]);
+
         //inizializzo la memoria
         Memory memoria = new Memory(fullcode);
         //prima istruzione
         opcode = Opcode.fromOp(fullcode.get(0));
-        while(isHalting == false) {
+        Instruction instr = opcode.toInstruction(params,registers);
+        while(instr.isHalting() == false) {
             //creo la memoria contenente tutti i parametri e istruzioni inseriti dall'utente
-            decode
+
+            opcode = Opcode.fromOp(...);
             execute(opcode, params, registers);
 
         }
@@ -51,36 +55,15 @@ public class Run {
     }
 
 
-
-
-
+    /**
+     * Post-condizioni: esegue l'operazione di opcode op, di parametri params e di registri registers se ne ha bisogno
+     * @param op opcode
+     * @param params parametri facoltativi
+     * @param registers registri facoltativi
+     */
     public static void execute(Opcode op, Memory.Location[] params, Registers registers){
-
-        switch (op){
-            case ADD:
-                break;
-            case MULTIPLY:
-                break;
-            case READ:
-                break;
-            case WRITE:
-                break;
-            case JUMP_NOT_ZERO:
-                JumpIfNotZero istr = new JumpIfNotZero(params,registers);
-
-                istr.execute();
-                break;
-            case JUMP_ZERO:
-                break;
-            case LESS_THAN:
-                break;
-            case EQUALS:
-                break;
-            case ADJ_RBP:
-                break;
-            case HALT:
-                break;
-        }
+       Instruction instr = op.toInstruction(params,registers);
+       instr.execute();
     }
 
     /**
